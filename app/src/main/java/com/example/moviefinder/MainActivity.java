@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -17,11 +20,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     EditText et_searchbar;
     Button btn_search;
+    ListView lv_search_result;
+    ArrayAdapter<String> arrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         MovieDataService movieDataService = new MovieDataService(this);
         et_searchbar = findViewById(R.id.et_searchbar);
         btn_search = findViewById(R.id.btn_search);
+        lv_search_result = findViewById(R.id.lv_search_result);
+
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(List<MovieSearchModel> response) {
-                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        List<String> l = new ArrayList<>();
+
+                        for(int i = 0; i < response.size(); i++){
+                            l.add(response.get(i).toString());
+                        }
+
+                        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, l);
+                        lv_search_result.setAdapter(arrayAdapter);
+//                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
