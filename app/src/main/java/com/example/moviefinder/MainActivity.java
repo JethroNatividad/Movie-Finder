@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     EditText et_searchbar;
     Button btn_search;
     ListView lv_search_result;
-    ArrayAdapter<String> arrayAdapter;
+    MovieSearchAdapter movieSearchAdapter;
+
 
 
     @Override
@@ -51,16 +52,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onResponse(List<MovieSearchModel> response) {
-                        List<String> l = new ArrayList<>();
-
-                        for(int i = 0; i < response.size(); i++){
-                            l.add(response.get(i).toString());
-                        }
-
-                        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, l);
-                        lv_search_result.setAdapter(arrayAdapter);
-//                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                    public void onResponse(ArrayList<MovieSearchModel> response) {
+                        movieSearchAdapter = new MovieSearchAdapter(MainActivity.this, response);
+                        lv_search_result.setAdapter(movieSearchAdapter);
 
                     }
                 });

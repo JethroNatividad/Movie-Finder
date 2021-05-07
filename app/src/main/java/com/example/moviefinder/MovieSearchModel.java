@@ -1,11 +1,11 @@
 package com.example.moviefinder;
 
 public class MovieSearchModel {
-    private String Title;
-    private String Year;
-    private String imdbID;
-    private String Type;
-    private String Poster;
+    String Title;
+    String Year;
+    String imdbID;
+    String Type;
+    String Poster;
 
     public MovieSearchModel(String Title, String Year, String imdbID, String Type, String Poster) {
         this.Title = Title;

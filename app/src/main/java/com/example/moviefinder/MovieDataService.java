@@ -27,12 +27,12 @@ public class MovieDataService {
 
     public interface SearchMovieResponse {
         void onError(String error);
-        void onResponse(List<MovieSearchModel> response);
+        void onResponse(ArrayList<MovieSearchModel> response);
     }
 
     public void searchMovie(String searchTerm, SearchMovieResponse searchMovieResponse){
         String url = SEARCH_MOVIE_ENDPOINT + searchTerm;
-        List<MovieSearchModel> movies = new ArrayList<>();
+        ArrayList<MovieSearchModel> movies = new ArrayList<>();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
