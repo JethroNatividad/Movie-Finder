@@ -1,6 +1,8 @@
 package com.example.moviefinder;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,12 +20,14 @@ import java.util.List;
 
 public class MovieDataService {
     public static final String SEARCH_MOVIE_ENDPOINT = "https://www.omdbapi.com/?apikey=thewdb&s=";
+    public static final String MOVIE_DETAIL_ENDPOINT = "https://www.omdbapi.com/?apikey=thewdb&i=";
     Context context;
     final Gson gson = new Gson();
 
     public MovieDataService(Context context) {
         this.context = context;
     }
+
 
     public interface SearchMovieResponse {
         void onError(String error);
@@ -56,6 +60,29 @@ public class MovieDataService {
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(request);
-
     }
+
+    public interface GetMovieDetailsResponse {
+        void onError(String error);
+        void onResponse(MovieDetailModel response);
+    }
+
+    public void getMovieDetails(String movieId, GetMovieDetailsResponse getMovieDetailsResponse){
+        String url = MOVIE_DETAIL_ENDPOINT + movieId;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                MovieDetailModel movie = gson.fromJson(response.toString(), MovieDetailModel.class);
+                getMovieDetailsResponse.onResponse(movie);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                getMovieDetailsResponse.onError(error.getMessage());
+            }
+        });
+        MySingleton.getInstance(context).addToRequestQueue(request);
+    }
+
 }

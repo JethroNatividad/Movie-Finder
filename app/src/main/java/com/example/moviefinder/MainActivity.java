@@ -2,8 +2,11 @@ package com.example.moviefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,10 +58,24 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(ArrayList<MovieSearchModel> response) {
                         movieSearchAdapter = new MovieSearchAdapter(MainActivity.this, response);
                         lv_search_result.setAdapter(movieSearchAdapter);
+                        lv_search_result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                MovieSearchModel currentModel = movieSearchAdapter.getItem(position);
+                                openMovieDetails(currentModel);
+                            }
+                        });
 
                     }
                 });
             }
         });
+
+
+    }
+    public void openMovieDetails(MovieSearchModel movieSearchModel){
+        Intent intent = new Intent(this, MovieDetailActivity.class);
+        intent.putExtra("movieId", movieSearchModel.imdbID);
+        startActivity(intent);
     }
 }

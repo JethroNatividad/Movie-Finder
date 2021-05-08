@@ -35,7 +35,7 @@ public class MovieSearchAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public MovieSearchModel getItem(int position) {
         return movies.get(position);
     }
 
