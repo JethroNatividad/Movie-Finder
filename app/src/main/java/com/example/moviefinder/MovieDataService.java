@@ -47,16 +47,20 @@ public class MovieDataService {
                         MovieSearchModel movie = gson.fromJson(search_result.getString(i), MovieSearchModel.class);
                         movies.add(movie);
                     }
-                    searchMovieResponse.onResponse(movies);
+                        searchMovieResponse.onResponse(movies);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    searchMovieResponse.onError(e.getMessage());
+//                    searchMovieResponse.onError(e.getMessage());
+                    searchMovieResponse.onError("No results found");
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                searchMovieResponse.onError(error.getMessage());
+//                searchMovieResponse.onError(error.getMessage());
+                searchMovieResponse.onError("Can't connect to the internet");
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(request);
@@ -79,7 +83,8 @@ public class MovieDataService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                getMovieDetailsResponse.onError(error.getMessage());
+//                getMovieDetailsResponse.onError(error.getMessage());
+                getMovieDetailsResponse.onError("Can't connect to the internet");
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(request);
