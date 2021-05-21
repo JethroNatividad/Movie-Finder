@@ -57,8 +57,11 @@ public class MovieSearchAdapter extends BaseAdapter {
         MovieSearchModel currentMovie = movies.get(position);
 
 
-//        iv_poster.setImageResource(R.drawable.g);
-        Picasso.get().load(currentMovie.Poster).into(iv_poster);
+        if(currentMovie.Poster.equals("N/A")){
+            Picasso.get().load(R.drawable.unavailable_poster).into(iv_poster);
+        } else{
+            Picasso.get().load(currentMovie.Poster).into(iv_poster);
+        }
         tv_title.setText(currentMovie.Title);
         tv_year.setText(currentMovie.Year);
         tv_type.setText(currentMovie.Type);

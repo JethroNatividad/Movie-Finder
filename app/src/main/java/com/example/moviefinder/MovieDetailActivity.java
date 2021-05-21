@@ -65,7 +65,11 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(MovieDetailModel response) {
                 Log.d("Movie", response.toString());
-                Picasso.get().load(response.Poster).into(iv_poster);
+                if(response.Poster.equals("N/A")){
+                    Picasso.get().load(R.drawable.unavailable_poster).into(iv_poster);
+                } else{
+                    Picasso.get().load(response.Poster).into(iv_poster);
+                }
                 tv_title.setText(response.Title + " (" + response.Year + ")");
                 tv_rated.setText("Rated: " + response.Rated);
                 tv_runtime.setText(response.Runtime);
